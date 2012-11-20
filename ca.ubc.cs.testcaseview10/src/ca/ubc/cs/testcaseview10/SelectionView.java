@@ -10,11 +10,16 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
@@ -65,14 +70,31 @@ public class SelectionView extends ViewPart {
 			
 			if (firstElement instanceof IAdaptable) {
 				IAdaptable adaptable = (IAdaptable) firstElement;
-				Object project = adaptable.getAdapter(IProject.class);
-				if (project instanceof IProject) {
-					try {
+				Object project = null;
+				boolean showitemcalled = false;
+				try {
+					project = adaptable.getAdapter(IProject.class);
+					if (project instanceof IProject) {
 						showItems(printProjectInfo((IProject)project));
-					} catch (Exception e) {
-						e.printStackTrace();
+						showitemcalled = true;
 					}
-				} else {
+					
+					project = adaptable.getAdapter(IPackageFragment.class);				
+					if (project instanceof IPackageFragment) {
+						showItems(getICompilationUnitInfo((IPackageFragment)project));
+						showitemcalled = true;
+					}
+					
+					project = adaptable.getAdapter(ICompilationUnit.class);								
+					if (project instanceof ICompilationUnit) {
+						showText(getOneICompilationUnitInfo((ICompilationUnit)project));
+						showitemcalled = true;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if (!showitemcalled) {
 					showItems(ss.toArray());					
 				}
 			} else {
@@ -129,11 +151,10 @@ public class SelectionView extends ViewPart {
 		super.dispose();
 	}
 	
-	
 	private Object[] printProjectInfo(IProject project) throws CoreException,
 		JavaModelException {
-		List<Object> str = new ArrayList<Object>();
-		str.add(project);
+		List<Object> str = new ArrayList<Object>();	
+		str.add(project); 
 
 		//System.out.println("Working in project " + project.getName());
 		// Check if we have a Java project
@@ -148,6 +169,7 @@ public class SelectionView extends ViewPart {
 	private Object[] printPackageInfos(IJavaProject javaProject)
 		throws JavaModelException {
 		List<Object> str = new ArrayList<Object>();
+		str.add(javaProject);
 		
 		IPackageFragment[] packages = javaProject.getPackageFragments();
 		for (IPackageFragment mypackage : packages) {
@@ -159,13 +181,53 @@ public class SelectionView extends ViewPart {
 			// rt.jar
 			//System.out.println("--------------------------------------------------------------------");
 			if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
-				//getICompilationUnitInfo(mypackage);
 				str.add(mypackage);
+				//getICompilationUnitInfo(mypackage);
 			}
 		}
 
 		//getMapInfo(this.opList, this.asList);
 		return str.toArray();
+	}
+	
+	private Object[] getICompilationUnitInfo(IPackageFragment mypackage) 
+			throws JavaModelException {
+		List<Object> str = new ArrayList<Object>();	
+
+		for (ICompilationUnit unit : mypackage.getCompilationUnits()) {
+			// assert statement search
+			ASTParser parser = ASTParser.newParser(AST.JLS3);
+			parser.setSource(unit);
+			CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+			str.add(unit);
+			
+			/*
+			ASTVisitorImpl astvi = new ASTVisitorImpl();
+			unitp.accept(astvi);
+			astvi.printAllAfterPhrase(true, true, true, true);
+			astvi.getInformation(this.opList, this.asList, this.assignList, this.oponlyList);
+			*/
+		}
+		return str.toArray();
+	}
+	
+	private String getOneICompilationUnitInfo(ICompilationUnit unit) 
+			throws JavaModelException {
+		//List<Object> str = new ArrayList<Object>();	
+
+		// assert statement search
+		ASTParser parser = ASTParser.newParser(AST.JLS3);
+		parser.setSource(unit);
+		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+		//str.add(unit);
+			
+		/*
+		ASTVisitorImpl astvi = new ASTVisitorImpl();
+		unitp.accept(astvi);
+		astvi.printAllAfterPhrase(true, true, true, true);
+		astvi.getInformation(this.opList, this.asList, this.assignList, this.oponlyList);
+		*/
+		return unit.toString();
 	}
 
 }
