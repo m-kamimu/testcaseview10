@@ -213,13 +213,11 @@ public class SelectionView extends ViewPart {
 	
 	private String getOneICompilationUnitInfo(ICompilationUnit unit) 
 			throws JavaModelException {
-		//List<Object> str = new ArrayList<Object>();	
 
 		// assert statement search
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(unit);
 		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-		//str.add(unit);
 			
 		/*
 		ASTVisitorImpl astvi = new ASTVisitorImpl();
