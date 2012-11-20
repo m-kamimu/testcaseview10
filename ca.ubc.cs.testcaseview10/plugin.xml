@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Sample Category"
+            id="ca.ubc.cs.testcaseview10">
+      </category>
+      <view
+            icon="icons/sample.gif"
+            category="ca.ubc.cs.testcaseview10"
+            class="ca.ubc.cs.testcaseview10.SelectionView"
+            id="ca.ubc.cs.testcaseview10.SelectionView"
+            name="Workbench Selection">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+      </perspectiveExtension>
+   </extension>
+</plugin>
