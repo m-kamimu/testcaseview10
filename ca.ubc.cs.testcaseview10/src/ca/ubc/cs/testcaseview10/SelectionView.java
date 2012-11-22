@@ -1,13 +1,11 @@
 package ca.ubc.cs.testcaseview10;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -19,8 +17,9 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jdt.internal.compiler.env.ISourceMethod;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IMarkSelection;
@@ -30,7 +29,6 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionListener;
@@ -38,6 +36,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
+
+import ch.akuhn.hapax.corpus.Terms;
+import ch.akuhn.hapax.index.LogLikelihood;
 
 /**
  * This view simply mirrors the current selection in the workbench window.
@@ -81,15 +82,18 @@ public class SelectionView extends ViewPart {
 					
 					project = adaptable.getAdapter(IPackageFragment.class);				
 					if (project instanceof IPackageFragment) {
-						showItems(getICompilationUnitInfo((IPackageFragment)project));
+						showText(getICompilationUnitInfo((IPackageFragment)project));
 						showitemcalled = true;
 					}
 					
 					project = adaptable.getAdapter(ICompilationUnit.class);								
 					if (project instanceof ICompilationUnit) {
-						showText(getOneICompilationUnitInfo((ICompilationUnit)project));
+						showText(getOneMethodICompilationUnitInfo((ICompilationUnit)project));
 						showitemcalled = true;
 					}
+					
+					//project = adaptable.getAdapter(IClass)
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -156,7 +160,6 @@ public class SelectionView extends ViewPart {
 		List<Object> str = new ArrayList<Object>();	
 		str.add(project); 
 
-		//System.out.println("Working in project " + project.getName());
 		// Check if we have a Java project
 		if (project.isOpen() && project.isNatureEnabled("org.eclipse.jdt.core.javanature")) {
 			IJavaProject javaProject = JavaCore.create(project);
@@ -190,42 +193,182 @@ public class SelectionView extends ViewPart {
 		return str.toArray();
 	}
 	
-	private Object[] getICompilationUnitInfo(IPackageFragment mypackage) 
+	private String getICompilationUnitInfo(IPackageFragment mypackage) 
 			throws JavaModelException {
-		List<Object> str = new ArrayList<Object>();	
+		List<String> str = new ArrayList<String>();	
 
-		for (ICompilationUnit unit : mypackage.getCompilationUnits()) {
-			// assert statement search
-			ASTParser parser = ASTParser.newParser(AST.JLS3);
-			parser.setSource(unit);
-			CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-			str.add(unit);
-			
-			/*
-			ASTVisitorImpl astvi = new ASTVisitorImpl();
-			unitp.accept(astvi);
-			astvi.printAllAfterPhrase(true, true, true, true);
-			astvi.getInformation(this.opList, this.asList, this.assignList, this.oponlyList);
-			*/
-		}
-		return str.toArray();
+		str.add(mypackage.toString());
+		str.add("\n");
+		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), mypackage.toString()));
+
+		return str.toString();
 	}
+	
+	private void callshouldComputeLogLikelihood(
+			List<String> str,
+			List<String> gmethodlist, List<String> lmethodlist) {
+		StringBuffer strbufgd = new StringBuffer();
+		StringBuffer strbufgl = new StringBuffer();
+
+		for (String each: gmethodlist) {
+			strbufgd.append(each);
+			strbufgd.append(" ");
+		}
+		for (String each: lmethodlist) {
+			strbufgl.append(each);
+			strbufgl.append(" ");
+		}
+
+		//str.add(strbufgd.toString());
+		//str.add(strbufgl.toString());
+		
+		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString()));
+		return;
+	}
+	
+	
+	private String getOneMethodICompilationUnitInfo(ICompilationUnit unit) 
+			throws JavaModelException {
+		getAllMethodICompliationUnitInfo(unit.getJavaProject());
+		List<String> str = new ArrayList<String>();	
+
+		// assert statement search
+		ASTParser parser = ASTParser.newParser(AST.JLS4);
+		parser.setSource(unit);
+		
+		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+		ASTVisitorImpl astvis = new ASTVisitorImpl(this.globalTestInformation);
+		unitp.accept(astvis);
+		
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodDList, astvis.localTestInformation.methodDList);
+		str.add("Invocation\n");
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodIList, astvis.localTestInformation.methodIList);
+		str.add("Asserts\n");
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodAList, astvis.localTestInformation.methodAList);
+		
+		return str.toString();
+	}
+	
 	
 	private String getOneICompilationUnitInfo(ICompilationUnit unit) 
 			throws JavaModelException {
+		List<Object> str = new ArrayList<Object>();	
 
 		// assert statement search
-		ASTParser parser = ASTParser.newParser(AST.JLS3);
+		ASTParser parser = ASTParser.newParser(AST.JLS4);
 		parser.setSource(unit);
 		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+		
+		str.add(unitp);
+		str.add("\n");
+		str.add(shouldComputeLogLikelihood(getAllICompliationUnitInfo(unit.getJavaProject()), unitp.toString()));
 			
-		/*
-		ASTVisitorImpl astvi = new ASTVisitorImpl();
-		unitp.accept(astvi);
-		astvi.printAllAfterPhrase(true, true, true, true);
-		astvi.getInformation(this.opList, this.asList, this.assignList, this.oponlyList);
-		*/
-		return unit.toString();
+		return str.toString();
 	}
 
+	
+	private String getAllIPackageInfo(IJavaProject javaProject)
+			throws JavaModelException {
+		StringBuffer strlen = new StringBuffer();
+		
+		IPackageFragment[] packages = javaProject.getPackageFragments();
+		for (IPackageFragment mypackage : packages) {
+			strlen.append(mypackage);
+		}
+		return strlen.toString();
+	}
+	
+	String currentProject = null;
+	TestInformation globalTestInformation = new TestInformation();
+
+	
+	private TestInformation getAllMethodICompliationUnitInfo(IJavaProject javaProject)
+			throws JavaModelException {
+		StringBuffer strlen = new StringBuffer();
+		if (currentProject != null && currentProject.equals(javaProject.getElementName())) {
+			return this.globalTestInformation;
+		} else {
+			currentProject = javaProject.getElementName();
+			this.globalTestInformation.methodDList.clear();
+			this.globalTestInformation.methodIList.clear();
+			this.globalTestInformation.methodAList.clear();
+		}
+		
+		IPackageFragment[] packages = javaProject.getPackageFragments();
+		for (IPackageFragment mypackage : packages) {
+			// Package fragments include all packages in the
+			// classpath
+			// We will only look at the package from the source
+			// folder
+			// K_BINARY would include also included JARS, e.g.
+			// rt.jar
+			//System.out.println("--------------------------------------------------------------------");
+			if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+				for (ICompilationUnit unit : mypackage.getCompilationUnits()) {
+					// assert statement search
+					ASTParser parser = ASTParser.newParser(AST.JLS4);
+					parser.setSource(unit);
+					CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+					ASTVisitorImpl astvis = new ASTVisitorImpl(this.globalTestInformation);
+					unitp.accept(astvis);
+				}
+			}
+		}
+		return this.globalTestInformation;
+	}
+	
+	
+	private String getAllICompliationUnitInfo(IJavaProject javaProject)
+			throws JavaModelException {
+		StringBuffer strlen = new StringBuffer();
+		
+		IPackageFragment[] packages = javaProject.getPackageFragments();
+		for (IPackageFragment mypackage : packages) {
+			// Package fragments include all packages in the
+			// classpath
+			// We will only look at the package from the source
+			// folder
+			// K_BINARY would include also included JARS, e.g.
+			// rt.jar
+			//System.out.println("--------------------------------------------------------------------");
+			if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+				for (ICompilationUnit unit : mypackage.getCompilationUnits()) {
+					// assert statement search
+					ASTParser parser = ASTParser.newParser(AST.JLS4);
+					parser.setSource(unit);
+					CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
+					strlen.append(unitp);
+				}
+			}
+		}
+		return strlen.toString();
+	}
+	
+	public void shouldComputeLogLikelihood() {
+		Terms all = new Terms("A A A A A B C C C D D");
+		Terms doc = new Terms("A A B B X");
+		for (String each: doc.elements()) {
+			LogLikelihood loglr = new LogLikelihood(all, doc, each);
+			System.out.println(loglr);
+		}
+	}
+	
+	public String shouldComputeLogLikelihood(String strall, String strdoc) {
+		Terms all = new Terms(strall,false);
+		Terms doc = new Terms(strdoc,false);
+		StringBuffer strbuf = new StringBuffer();
+		List<LogLikelihood> col = new ArrayList<LogLikelihood>();
+		for (String each: doc.elements()) {
+			LogLikelihood loglr = new LogLikelihood(doc, all, each);
+			col.add(loglr);
+		}
+		Collections.sort(col);
+
+		for (LogLikelihood logLikelihood : col) {
+			//System.out.println(loglr);			
+			strbuf.append(logLikelihood.toString() + "\n");
+		}
+
+		return strbuf.toString();
+	}
 }
