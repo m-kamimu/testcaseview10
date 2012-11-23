@@ -197,9 +197,15 @@ public class SelectionView extends ViewPart {
 			throws JavaModelException {
 		List<String> str = new ArrayList<String>();	
 
-		str.add(mypackage.toString());
-		str.add("\n");
-		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), mypackage.toString()));
+		StringBuffer compstr = new StringBuffer();
+		for(ICompilationUnit mycompunit: mypackage.getCompilationUnits() ) {
+			compstr.append(mycompunit.getElementName());
+			compstr.append(" ");
+		}
+		//str.add(mypackage.getElementName());
+		//str.add(compstr.toString());
+		//str.add("\n");
+		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), compstr.toString(),true));
 
 		return str.toString();
 	}
@@ -222,7 +228,7 @@ public class SelectionView extends ViewPart {
 		//str.add(strbufgd.toString());
 		//str.add(strbufgl.toString());
 		
-		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString()));
+		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString(),false));
 		return;
 	}
 	
@@ -261,7 +267,7 @@ public class SelectionView extends ViewPart {
 		
 		str.add(unitp);
 		str.add("\n");
-		str.add(shouldComputeLogLikelihood(getAllICompliationUnitInfo(unit.getJavaProject()), unitp.toString()));
+		str.add(shouldComputeLogLikelihood(getAllICompliationUnitInfo(unit.getJavaProject()), unitp.toString(),false));
 			
 		return str.toString();
 	}
@@ -273,7 +279,9 @@ public class SelectionView extends ViewPart {
 		
 		IPackageFragment[] packages = javaProject.getPackageFragments();
 		for (IPackageFragment mypackage : packages) {
-			strlen.append(mypackage);
+			for(ICompilationUnit mycompunit: mypackage.getCompilationUnits()) {
+				strlen.append(mycompunit.getElementName());
+			}
 		}
 		return strlen.toString();
 	}
@@ -353,9 +361,9 @@ public class SelectionView extends ViewPart {
 		}
 	}
 	
-	public String shouldComputeLogLikelihood(String strall, String strdoc) {
-		Terms all = new Terms(strall,false);
-		Terms doc = new Terms(strdoc,false);
+	public String shouldComputeLogLikelihood(String strall, String strdoc, boolean flag) {
+		Terms all = new Terms(strall,flag);
+		Terms doc = new Terms(strdoc,flag);
 		StringBuffer strbuf = new StringBuffer();
 		List<LogLikelihood> col = new ArrayList<LogLikelihood>();
 		for (String each: doc.elements()) {
