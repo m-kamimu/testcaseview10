@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -37,6 +38,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
 
+import ca.ubc.cs.testcaseview10.marker.SampleMarker;
 import ch.akuhn.hapax.corpus.Terms;
 import ch.akuhn.hapax.index.LogLikelihood;
 
@@ -90,6 +92,9 @@ public class SelectionView extends ViewPart {
 					if (project instanceof ICompilationUnit) {
 						showText(getOneMethodICompilationUnitInfo((ICompilationUnit)project));
 						showitemcalled = true;
+						
+						IResource irs = ((ICompilationUnit) project).getCorrespondingResource();
+						SampleMarker.createMarker(irs);
 					}
 					
 					//project = adaptable.getAdapter(IClass)

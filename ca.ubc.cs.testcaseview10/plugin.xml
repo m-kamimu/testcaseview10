@@ -21,4 +21,30 @@
             targetID="*">
       </perspectiveExtension>
    </extension>
+   	<extension
+      id="SampleMarker"
+      point="org.eclipse.core.resources.markers">
+   <super
+         type="org.eclipse.core.resources.textmarker">
+   </super>
+   <persistent
+         value="true">
+   </persistent>
+</extension>
+<extension
+      point="org.eclipse.ui.editors.markerAnnotationSpecification">
+   <specification
+         annotationType="sample.baseMarkerAnnotation"
+         icon="icons/sample.gif"
+         overviewRulerPreferenceValue="false">
+   </specification>
+</extension>
+<extension
+      point="org.eclipse.ui.editors.annotationTypes">
+   <type
+         markerType="ca.ubc.cs.testcaseview10.SampleMarker"
+         super="org.eclipse.ui.workbench.texteditor.warning"
+         name="sample.baseMarkerAnnotation">
+   </type>
+</extension>
 </plugin>
