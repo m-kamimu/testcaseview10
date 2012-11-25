@@ -22,29 +22,48 @@
       </perspectiveExtension>
    </extension>
    	<extension
-      id="SampleMarker"
+      id="ca.ubc.cs.testcaseview10.SampleMarker"
+      name="ca.ubc.cs.testcaseview10.SampleMarker"
       point="org.eclipse.core.resources.markers">
    <super
          type="org.eclipse.core.resources.textmarker">
    </super>
-   <persistent
-         value="true">
-   </persistent>
-</extension>
-<extension
-      point="org.eclipse.ui.editors.markerAnnotationSpecification">
-   <specification
-         annotationType="sample.baseMarkerAnnotation"
-         icon="icons/sample.gif"
-         overviewRulerPreferenceValue="false">
-   </specification>
 </extension>
 <extension
       point="org.eclipse.ui.editors.annotationTypes">
    <type
          markerType="ca.ubc.cs.testcaseview10.SampleMarker"
-         super="org.eclipse.ui.workbench.texteditor.warning"
-         name="sample.baseMarkerAnnotation">
+         super="org.eclipse.ui.workbench.texteditor.info"
+         name="ca.ubc.cs.testcaseview10.SampleMarker">
    </type>
 </extension>
+<extension
+      point="org.eclipse.ui.editors.markerAnnotationSpecification">
+   <specification
+         annotationType="ca.ubc.cs.testcaseview10.SampleMarker"
+         colorPreferenceKey="Samplecolor"
+         colorPreferenceValue="255,255,0"
+         contributesToHeader="false"
+         highlightPreferenceKey="highlight"
+         highlightPreferenceValue="true"
+         includeOnPreferencePage="true"             
+         overviewRulerPreferenceKey="Sampleruler"
+         overviewRulerPreferenceValue="true"
+         textPreferenceKey="cltext"
+         textPreferenceValue="true"
+         presentationLayer="0"
+         label="Sample Marker"
+         verticalRulerPreferenceKey="clvertical"
+         verticalRulerPreferenceValue="true"
+         textStylePreferenceKey="clstyle"
+         textStylePreferenceValue="BOX">
+   </specification>
+</extension>
+<extension point="org.eclipse.ui.editors.markerUpdaters"> 
+         <updater
+              id="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
+              class="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
+              markerType="ca.ubc.cs.testcaseview10.SampleMarker">
+         </updater>
+</extension> 
 </plugin>
