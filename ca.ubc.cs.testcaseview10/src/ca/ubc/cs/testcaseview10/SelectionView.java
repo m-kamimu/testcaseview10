@@ -1,7 +1,6 @@
 package ca.ubc.cs.testcaseview10;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,9 +17,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.internal.compiler.env.ISourceMethod;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IMarkSelection;
@@ -110,10 +107,12 @@ public class SelectionView extends ViewPart {
 				showItems(ss.toArray());
 			}
 		}
+		/*
 		if (selection instanceof ITextSelection) {
 			ITextSelection ts  = (ITextSelection) selection;
 			showText(ts.getText());
 		}
+		*/
 		if (selection instanceof IMarkSelection) {
 			IMarkSelection ms = (IMarkSelection) selection;
 			try {
@@ -265,7 +264,7 @@ public class SelectionView extends ViewPart {
 		return str.toString();
 	}
 	
-	
+	/*
 	private String getOneICompilationUnitInfo(ICompilationUnit unit) 
 			throws JavaModelException {
 		List<Object> str = new ArrayList<Object>();	
@@ -281,6 +280,7 @@ public class SelectionView extends ViewPart {
 			
 		return str.toString();
 	}
+	*/
 
 	
 	private String getAllIPackageInfo(IJavaProject javaProject)
@@ -334,7 +334,7 @@ public class SelectionView extends ViewPart {
 		return this.globalTestInformation;
 	}
 	
-	
+	/*
 	private String getAllICompliationUnitInfo(IJavaProject javaProject)
 			throws JavaModelException {
 		StringBuffer strlen = new StringBuffer();
@@ -360,6 +360,7 @@ public class SelectionView extends ViewPart {
 		}
 		return strlen.toString();
 	}
+	*/
 	
 	public void shouldComputeLogLikelihood() {
 		Terms all = new Terms("A A A A A B C C C D D");
