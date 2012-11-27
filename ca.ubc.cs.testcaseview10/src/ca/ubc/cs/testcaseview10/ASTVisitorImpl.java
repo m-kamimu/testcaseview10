@@ -92,7 +92,6 @@ public class ASTVisitorImpl extends ASTVisitor {
 	@Override
 	public boolean visit(ClassInstanceCreation node) {
 		// TODO Auto-generated method stub
-		System.out.println(node.toString());
 		if(!globalTestInformation.isLock()) {
 			globalTestInformation.getMethodIList().add(node.toString());
 			globalTestInformation.getMethodIintsList().add(node.getStartPosition());
