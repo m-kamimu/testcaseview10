@@ -305,6 +305,7 @@ public class SelectionView extends ViewPart {
 			return this.globalTestInformation;
 		} else {
 			currentProject = javaProject.getElementName();
+			this.globalTestInformation.setLock(false);
 			this.globalTestInformation.getMethodDList().clear();
 			this.globalTestInformation.getMethodIList().clear();
 			this.globalTestInformation.getMethodAList().clear();

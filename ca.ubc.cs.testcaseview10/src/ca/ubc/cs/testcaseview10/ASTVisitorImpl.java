@@ -1,7 +1,9 @@
 package ca.ubc.cs.testcaseview10;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ConstructorInvocation;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 
@@ -74,7 +76,32 @@ public class ASTVisitorImpl extends ASTVisitor {
 		}
 		super.endVisit(node);
 	}
-	
-	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jdt.core.dom.ASTVisitor#endVisit(org.eclipse.jdt.core.dom.ClassInstanceCreation)
+	 */
+	@Override
+	public void endVisit(ClassInstanceCreation node) {
+		// TODO Auto-generated method stub
+		super.endVisit(node);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jdt.core.dom.ASTVisitor#visit(org.eclipse.jdt.core.dom.ClassInstanceCreation)
+	 */
+	@Override
+	public boolean visit(ClassInstanceCreation node) {
+		// TODO Auto-generated method stub
+		System.out.println(node.toString());
+		if(!globalTestInformation.isLock()) {
+			globalTestInformation.getMethodIList().add(node.toString());
+			globalTestInformation.getMethodIintsList().add(node.getStartPosition());
+			globalTestInformation.getMethodIintlList().add(node.getLength());
+		}
+		localTestInformation.getMethodIList().add(node.toString());			
+		localTestInformation.getMethodIintsList().add(node.getStartPosition());
+		localTestInformation.getMethodIintlList().add(node.getLength());
+		return super.visit(node);
+	}
 	
 }
