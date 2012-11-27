@@ -155,7 +155,6 @@
          textStylePreferenceKey="clstyle2"
          textStylePreferenceValue="BOX">
    </specification>
-
 </extension>
 <extension point="org.eclipse.ui.editors.markerUpdaters"> 
          <updater
@@ -163,5 +162,5 @@
               class="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
               markerType="ca.ubc.cs.testcaseview10.SampleMarker">
          </updater>
-</extension> 
+</extension>
 </plugin>
