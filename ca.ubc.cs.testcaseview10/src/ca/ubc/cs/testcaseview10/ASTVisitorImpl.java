@@ -42,22 +42,22 @@ public class ASTVisitorImpl extends ASTVisitor {
 		// TODO Auto-generated method stub
 		if (assertFlag || node.getName().toString().startsWith("assert")) {
 			if(!globalTestInformation.isLock()) {
-				globalTestInformation.getMethodAList().add(node.getName().toString());
+				globalTestInformation.getMethodAList().add(node.toString());
 				globalTestInformation.getMethodAintsList().add(node.getStartPosition());
 				globalTestInformation.getMethodAintlList().add(node.getLength());
 			}
-			localTestInformation.getMethodAList().add(node.getName().toString());
+			localTestInformation.getMethodAList().add(node.toString());
 			localTestInformation.getMethodAintsList().add(node.getStartPosition());
 			localTestInformation.getMethodAintlList().add(node.getLength());
 
 			assertFlag = true;
 		} else {
 			if(!globalTestInformation.isLock()) {
-				globalTestInformation.getMethodIList().add(node.getName().toString());
+				globalTestInformation.getMethodIList().add(node.toString());
 				globalTestInformation.getMethodIintsList().add(node.getStartPosition());
 				globalTestInformation.getMethodIintlList().add(node.getLength());
 			}
-			localTestInformation.getMethodIList().add(node.getName().toString());			
+			localTestInformation.getMethodIList().add(node.toString());			
 			localTestInformation.getMethodIintsList().add(node.getStartPosition());
 			localTestInformation.getMethodIintlList().add(node.getLength());
 		}

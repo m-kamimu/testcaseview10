@@ -232,7 +232,7 @@ public class SelectionView extends ViewPart {
 		//str.add(strbufgd.toString());
 		//str.add(strbufgl.toString());
 		
-		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString(),false));
+		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString(),true));
 		return;
 	}
 	
