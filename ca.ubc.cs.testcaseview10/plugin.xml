@@ -28,6 +28,14 @@
    <super
          type="org.eclipse.core.resources.textmarker">
    </super>
+   </extension>
+   <extension
+      id="ca.ubc.cs.testcaseview10.SampleMarker2"
+      name="ca.ubc.cs.testcaseview10.SampleMarker2"
+      point="org.eclipse.core.resources.markers">
+   <super
+         type="org.eclipse.core.resources.textmarker">
+   </super>
 </extension>
 <extension
       point="org.eclipse.ui.editors.annotationTypes">
@@ -36,15 +44,20 @@
          super="org.eclipse.ui.workbench.texteditor.info"
          name="ca.ubc.cs.testcaseview10.SampleMarker">
    </type>
+      <type
+         markerType="ca.ubc.cs.testcaseview10.SampleMarker2"
+         super="org.eclipse.ui.workbench.texteditor.info"
+         name="ca.ubc.cs.testcaseview10.SampleMarker2">
+   </type> 
 </extension>
 <extension
       point="org.eclipse.ui.editors.markerAnnotationSpecification">
    <specification
          annotationType="ca.ubc.cs.testcaseview10.SampleMarker"
-         colorPreferenceKey="Samplecolor"
+         colorPreferenceKey="Assert_Samplecolor"
          colorPreferenceValue="255,255,0"
-         contributesToHeader="true"
-         highlightPreferenceKey="highlight"
+         contributesToHeader="false"
+         highlightPreferenceKey="assert_highlight"
          highlightPreferenceValue="true"
          includeOnPreferencePage="true"             
          overviewRulerPreferenceKey="Sampleruler"
@@ -56,6 +69,25 @@
          verticalRulerPreferenceKey="clvertical"
          verticalRulerPreferenceValue="true"
          textStylePreferenceKey="clstyle"
+         textStylePreferenceValue="BOX">
+   </specification>
+      <specification
+         annotationType="ca.ubc.cs.testcaseview10.SampleMarker2"
+         colorPreferenceKey="Invocation_Samplecolor2"
+         colorPreferenceValue="0,255,0"
+         contributesToHeader="false"
+         highlightPreferenceKey="invocation_highlight"
+         highlightPreferenceValue="true"
+         includeOnPreferencePage="true"             
+         overviewRulerPreferenceKey="Sampleruler2"
+         overviewRulerPreferenceValue="true"
+         textPreferenceKey="cltext2"
+         textPreferenceValue="true"
+         presentationLayer="1"
+         label="Sample Marker2"
+         verticalRulerPreferenceKey="clvertical2"
+         verticalRulerPreferenceValue="true"
+         textStylePreferenceKey="clstyle2"
          textStylePreferenceValue="BOX">
    </specification>
 </extension>

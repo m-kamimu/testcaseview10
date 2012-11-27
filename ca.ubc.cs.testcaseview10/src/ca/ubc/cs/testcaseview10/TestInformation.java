@@ -64,4 +64,23 @@ public class TestInformation {
 		this.methodAintsList = methodAintsList;
 	}
 	
+	public int getMethodAOccurence(String methodname) {
+		int occurence = 0;
+		for(String name: methodAList) {
+			if (name.equals(methodname)) {
+				occurence++;
+			}
+		}
+		return occurence;
+	}
+	
+	public int getMethodIOccurence(String methodname) {
+		int occurence = 0;
+		for(String name: methodIList) {
+			if (name.equals(methodname)) {
+				occurence++;
+			}
+		}
+		return occurence;
+	}	
 }

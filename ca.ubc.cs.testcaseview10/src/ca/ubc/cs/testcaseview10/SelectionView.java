@@ -39,6 +39,7 @@ import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
 
 import ca.ubc.cs.testcaseview10.marker.SampleMarker;
+import ca.ubc.cs.testcaseview10.marker.SampleMarker2;
 import ch.akuhn.hapax.corpus.Terms;
 import ch.akuhn.hapax.index.LogLikelihood;
 
@@ -256,6 +257,7 @@ public class SelectionView extends ViewPart {
 		
 		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
 		SampleMarker.createMarker(irs, astvis.localTestInformation);
+		SampleMarker2.createMarker(irs, astvis.localTestInformation);
 		return str.toString();
 	}
 	
