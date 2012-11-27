@@ -14,8 +14,8 @@ public class SampleMarker2 {
 
 	private static final String MARKER_ID = "ca.ubc.cs.testcaseview10.SampleMarker2";
 
-	public static void createMarker(IResource resource, TestInformation ti) {
-		if (ti == null) {
+	public static void createMarker(IResource resource, TestInformation ti, TestInformation global) {
+		if (ti == null || global == null) {
 			return;
 		}
 		
@@ -28,6 +28,10 @@ public class SampleMarker2 {
 		}
 		
 	    for(int i = 0; i < ti.getMethodIintsList().size(); i++) {
+	    	if (global.getMethodIOccurence(ti.getMethodIList().get(i)) > 1) {
+	    		continue;
+	    	}
+
 		    Map<Object,Object> attributes = new HashMap<Object,Object>();
 		    attributes.put(IMarker.TRANSIENT, true);
 		    attributes.put(IMarker.PRIORITY, Integer.valueOf(IMarker.PRIORITY_NORMAL));
@@ -39,7 +43,7 @@ public class SampleMarker2 {
 	    	
 		    //attributes.put(IMarker.CHAR_START, Integer.valueOf(1000));
 		    //attributes.put(IMarker.CHAR_END, Integer.valueOf(1005));
-		    attributes.put(IMarker.MESSAGE, "sample marker");
+		    attributes.put(IMarker.MESSAGE, "occurence:" + global.getMethodIOccurence(ti.getMethodIList().get(i)) );
 		    try {
 				MarkerUtilities.createMarker(resource, attributes, SampleMarker2.MARKER_ID);
 			} catch (CoreException e1) {

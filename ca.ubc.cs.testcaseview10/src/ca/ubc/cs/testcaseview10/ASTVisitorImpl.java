@@ -22,8 +22,10 @@ public class ASTVisitorImpl extends ASTVisitor {
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		// TODO Auto-generated method stub
-		globalTestInformation.methodDList.add(node.getName().toString());
-		localTestInformation.methodDList.add(node.getName().toString());
+		if(!globalTestInformation.isLock()) {
+			globalTestInformation.getMethodDList().add(node.getName().toString());
+		}
+		localTestInformation.getMethodDList().add(node.getName().toString());
 		
 		return super.visit(node);
 	}
@@ -37,23 +39,25 @@ public class ASTVisitorImpl extends ASTVisitor {
 	public boolean visit(MethodInvocation node) {
 		// TODO Auto-generated method stub
 		if (assertFlag || node.getName().toString().startsWith("assert")) {
-			globalTestInformation.methodAList.add(node.getName().toString());
-			globalTestInformation.methodAintsList.add(node.getStartPosition());
-			globalTestInformation.methodAintlList.add(node.getLength());
-
-			localTestInformation.methodAList.add(node.getName().toString());
-			localTestInformation.methodAintsList.add(node.getStartPosition());
-			localTestInformation.methodAintlList.add(node.getLength());
+			if(!globalTestInformation.isLock()) {
+				globalTestInformation.getMethodAList().add(node.getName().toString());
+				globalTestInformation.getMethodAintsList().add(node.getStartPosition());
+				globalTestInformation.getMethodAintlList().add(node.getLength());
+			}
+			localTestInformation.getMethodAList().add(node.getName().toString());
+			localTestInformation.getMethodAintsList().add(node.getStartPosition());
+			localTestInformation.getMethodAintlList().add(node.getLength());
 
 			assertFlag = true;
 		} else {
-			globalTestInformation.methodIList.add(node.getName().toString());
-			globalTestInformation.methodIintsList.add(node.getStartPosition());
-			globalTestInformation.methodIintlList.add(node.getLength());
-
-			localTestInformation.methodIList.add(node.getName().toString());			
-			localTestInformation.methodIintsList.add(node.getStartPosition());
-			localTestInformation.methodIintlList.add(node.getLength());
+			if(!globalTestInformation.isLock()) {
+				globalTestInformation.getMethodIList().add(node.getName().toString());
+				globalTestInformation.getMethodIintsList().add(node.getStartPosition());
+				globalTestInformation.getMethodIintlList().add(node.getLength());
+			}
+			localTestInformation.getMethodIList().add(node.getName().toString());			
+			localTestInformation.getMethodIintsList().add(node.getStartPosition());
+			localTestInformation.getMethodIintlList().add(node.getLength());
 		}
 		
 		return super.visit(node);
@@ -70,8 +74,4 @@ public class ASTVisitorImpl extends ASTVisitor {
 		}
 		super.endVisit(node);
 	}
-	
-	
-		
-	
 }

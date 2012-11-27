@@ -29,6 +29,14 @@
          type="org.eclipse.core.resources.textmarker">
    </super>
    </extension>
+      	<extension
+      id="ca.ubc.cs.testcaseview10.SampleMarker10"
+      name="ca.ubc.cs.testcaseview10.SampleMarker10"
+      point="org.eclipse.core.resources.markers">
+   <super
+         type="org.eclipse.core.resources.textmarker">
+   </super>
+   </extension>
    <extension
       id="ca.ubc.cs.testcaseview10.SampleMarker2"
       name="ca.ubc.cs.testcaseview10.SampleMarker2"
@@ -37,6 +45,14 @@
          type="org.eclipse.core.resources.textmarker">
    </super>
 </extension>
+   	<extension
+      id="ca.ubc.cs.testcaseview10.SampleMarker20"
+      name="ca.ubc.cs.testcaseview10.SampleMarker20"
+      point="org.eclipse.core.resources.markers">
+   <super
+         type="org.eclipse.core.resources.textmarker">
+   </super>
+   </extension>
 <extension
       point="org.eclipse.ui.editors.annotationTypes">
    <type
@@ -44,20 +60,31 @@
          super="org.eclipse.ui.workbench.texteditor.info"
          name="ca.ubc.cs.testcaseview10.SampleMarker">
    </type>
+   <type
+         markerType="ca.ubc.cs.testcaseview10.SampleMarker10"
+         super="org.eclipse.ui.workbench.texteditor.info"
+         name="ca.ubc.cs.testcaseview10.SampleMarker10">
+   </type>
       <type
          markerType="ca.ubc.cs.testcaseview10.SampleMarker2"
          super="org.eclipse.ui.workbench.texteditor.info"
          name="ca.ubc.cs.testcaseview10.SampleMarker2">
    </type> 
+      <type
+         markerType="ca.ubc.cs.testcaseview10.SampleMarker20"
+         super="org.eclipse.ui.workbench.texteditor.info"
+         name="ca.ubc.cs.testcaseview10.SampleMarker20">
+   </type> 
+
 </extension>
 <extension
       point="org.eclipse.ui.editors.markerAnnotationSpecification">
    <specification
          annotationType="ca.ubc.cs.testcaseview10.SampleMarker"
-         colorPreferenceKey="Assert_Samplecolor"
+         colorPreferenceKey="AssertOne_Samplecolor"
          colorPreferenceValue="255,255,0"
          contributesToHeader="false"
-         highlightPreferenceKey="assert_highlight"
+         highlightPreferenceKey="assertone_highlight"
          highlightPreferenceValue="true"
          includeOnPreferencePage="true"             
          overviewRulerPreferenceKey="Sampleruler"
@@ -72,11 +99,30 @@
          textStylePreferenceValue="BOX">
    </specification>
       <specification
+         annotationType="ca.ubc.cs.testcaseview10.SampleMarker10"
+         colorPreferenceKey="AssertMany_Samplecolor"
+         colorPreferenceValue="255,255,200"
+         contributesToHeader="false"
+         highlightPreferenceKey="assertmany_highlight"
+         highlightPreferenceValue="true"
+         includeOnPreferencePage="true"             
+         overviewRulerPreferenceKey="Sampleruler"
+         overviewRulerPreferenceValue="true"
+         textPreferenceKey="cltext"
+         textPreferenceValue="true"
+         presentationLayer="0"
+         label="Sample Marker10"
+         verticalRulerPreferenceKey="clvertical"
+         verticalRulerPreferenceValue="true"
+         textStylePreferenceKey="clstyle"
+         textStylePreferenceValue="BOX">
+   </specification>
+      <specification
          annotationType="ca.ubc.cs.testcaseview10.SampleMarker2"
          colorPreferenceKey="Invocation_Samplecolor2"
          colorPreferenceValue="0,255,0"
          contributesToHeader="false"
-         highlightPreferenceKey="invocation_highlight"
+         highlightPreferenceKey="invocationOne_highlight"
          highlightPreferenceValue="true"
          includeOnPreferencePage="true"             
          overviewRulerPreferenceKey="Sampleruler2"
@@ -90,6 +136,26 @@
          textStylePreferenceKey="clstyle2"
          textStylePreferenceValue="BOX">
    </specification>
+      <specification
+         annotationType="ca.ubc.cs.testcaseview10.SampleMarker20"
+         colorPreferenceKey="InvocationMany_Samplecolor20"
+         colorPreferenceValue="200,255,200"
+         contributesToHeader="false"
+         highlightPreferenceKey="invocation_highlight"
+         highlightPreferenceValue="true"
+         includeOnPreferencePage="true"             
+         overviewRulerPreferenceKey="Sampleruler2"
+         overviewRulerPreferenceValue="true"
+         textPreferenceKey="cltext2"
+         textPreferenceValue="true"
+         presentationLayer="1"
+         label="Sample Marker20"
+         verticalRulerPreferenceKey="clvertical2"
+         verticalRulerPreferenceValue="true"
+         textStylePreferenceKey="clstyle2"
+         textStylePreferenceValue="BOX">
+   </specification>
+
 </extension>
 <extension point="org.eclipse.ui.editors.markerUpdaters"> 
          <updater

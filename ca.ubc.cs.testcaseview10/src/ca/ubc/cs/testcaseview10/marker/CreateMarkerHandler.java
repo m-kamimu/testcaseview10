@@ -18,7 +18,7 @@ public class CreateMarkerHandler extends AbstractHandler {
         IEditorInput editorInput = editorPart.getEditorInput();
         IResource resource = (IResource)editorInput.getAdapter(IResource.class);
 
-        SampleMarker.createMarker(resource, null);
+        SampleMarker.createMarker(resource, null, null);
         return null;
     }
 }

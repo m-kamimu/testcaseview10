@@ -39,7 +39,9 @@ import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
 
 import ca.ubc.cs.testcaseview10.marker.SampleMarker;
+import ca.ubc.cs.testcaseview10.marker.SampleMarker10;
 import ca.ubc.cs.testcaseview10.marker.SampleMarker2;
+import ca.ubc.cs.testcaseview10.marker.SampleMarker20;
 import ch.akuhn.hapax.corpus.Terms;
 import ch.akuhn.hapax.index.LogLikelihood;
 
@@ -249,15 +251,17 @@ public class SelectionView extends ViewPart {
 		ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 		unitp.accept(astvis);
 		
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodDList, astvis.localTestInformation.methodDList);
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodDList(), astvis.localTestInformation.getMethodDList());
 		str.add("Invocation\n");
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodIList, astvis.localTestInformation.methodIList);
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodIList(), astvis.localTestInformation.getMethodIList());
 		str.add("Asserts\n");
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodAList, astvis.localTestInformation.methodAList);
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodAList(), astvis.localTestInformation.getMethodAList());
 		
 		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
-		SampleMarker.createMarker(irs, astvis.localTestInformation);
-		SampleMarker2.createMarker(irs, astvis.localTestInformation);
+		SampleMarker.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		SampleMarker2.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		SampleMarker10.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		SampleMarker20.createMarker(irs, astvis.localTestInformation, globalTestInformation);
 		return str.toString();
 	}
 	
@@ -295,17 +299,15 @@ public class SelectionView extends ViewPart {
 	String currentProject = null;
 	TestInformation globalTestInformation = new TestInformation();
 
-	
 	private TestInformation getAllMethodICompliationUnitInfo(IJavaProject javaProject)
 			throws JavaModelException {
-		StringBuffer strlen = new StringBuffer();
 		if (currentProject != null && currentProject.equals(javaProject.getElementName())) {
 			return this.globalTestInformation;
 		} else {
 			currentProject = javaProject.getElementName();
-			this.globalTestInformation.methodDList.clear();
-			this.globalTestInformation.methodIList.clear();
-			this.globalTestInformation.methodAList.clear();
+			this.globalTestInformation.getMethodDList().clear();
+			this.globalTestInformation.getMethodIList().clear();
+			this.globalTestInformation.getMethodAList().clear();
 		}
 		
 		IPackageFragment[] packages = javaProject.getPackageFragments();
@@ -328,6 +330,7 @@ public class SelectionView extends ViewPart {
 				}
 			}
 		}
+		this.globalTestInformation.setLock(true);
 		return this.globalTestInformation;
 	}
 	

@@ -5,16 +5,30 @@ import java.util.List;
 
 public class TestInformation {
 	
-	List<String> methodDList = new ArrayList<String>(); // test case name
-	List<String> methodIList = new ArrayList<String>(); // ordinary list
-	List<String> methodAList = new ArrayList<String>(); // assert list
+	private List<String> methodDList = new ArrayList<String>(); // test case name
+	private List<String> methodIList = new ArrayList<String>(); // ordinary list
+	private List<String> methodAList = new ArrayList<String>(); // assert list
 	
-	List<Integer> methodIintsList = new ArrayList<Integer>();
-	List<Integer> methodIintlList = new ArrayList<Integer>();
+	private List<Integer> methodIintsList = new ArrayList<Integer>();
+	private List<Integer> methodIintlList = new ArrayList<Integer>();
 
-	List<Integer> methodAintsList = new ArrayList<Integer>();
-	List<Integer> methodAintlList = new ArrayList<Integer>();
+	private List<Integer> methodAintsList = new ArrayList<Integer>();
+	private List<Integer> methodAintlList = new ArrayList<Integer>();
 
+	private boolean lock = false;
+	
+	/**
+	 * @return the lock
+	 */
+	public boolean isLock() {
+		return lock;
+	}
+	/**
+	 * @param lock the lock to set
+	 */
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
 	/**
 	 * @return the methodIintlList
 	 */
@@ -82,5 +96,44 @@ public class TestInformation {
 			}
 		}
 		return occurence;
-	}	
+	}
+	/**
+	 * @return the methodDList
+	 */
+	public List<String> getMethodDList() {
+		return methodDList;
+	}
+	/**
+	 * @param methodDList the methodDList to set
+	 */
+	public void setMethodDList(List<String> methodDList) {
+		this.methodDList = methodDList;
+	}
+	/**
+	 * @return the methodIList
+	 */
+	public List<String> getMethodIList() {
+		return methodIList;
+	}
+	/**
+	 * @param methodIList the methodIList to set
+	 */
+	public void setMethodIList(List<String> methodIList) {
+		this.methodIList = methodIList;
+	}
+	/**
+	 * @return the methodAList
+	 */
+	public List<String> getMethodAList() {
+		return methodAList;
+	}
+	/**
+	 * @param methodAList the methodAList to set
+	 */
+	public void setMethodAList(List<String> methodAList) {
+		this.methodAList = methodAList;
+	}
+	
+	
+	
 }
