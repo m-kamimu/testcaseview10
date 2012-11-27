@@ -43,7 +43,7 @@
          annotationType="ca.ubc.cs.testcaseview10.SampleMarker"
          colorPreferenceKey="Samplecolor"
          colorPreferenceValue="255,255,0"
-         contributesToHeader="false"
+         contributesToHeader="true"
          highlightPreferenceKey="highlight"
          highlightPreferenceValue="true"
          includeOnPreferencePage="true"             

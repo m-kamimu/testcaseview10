@@ -91,10 +91,7 @@ public class SelectionView extends ViewPart {
 					project = adaptable.getAdapter(ICompilationUnit.class);								
 					if (project instanceof ICompilationUnit) {
 						showText(getOneMethodICompilationUnitInfo((ICompilationUnit)project));
-						showitemcalled = true;
-						
-						IResource irs = ((ICompilationUnit) project).getCorrespondingResource();
-						SampleMarker.createMarker(irs);
+						showitemcalled = true;						
 					}
 					
 					//project = adaptable.getAdapter(IClass)
@@ -248,7 +245,7 @@ public class SelectionView extends ViewPart {
 		parser.setSource(unit);
 		
 		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-		ASTVisitorImpl astvis = new ASTVisitorImpl(this.globalTestInformation);
+		ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 		unitp.accept(astvis);
 		
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodDList, astvis.localTestInformation.methodDList);
@@ -257,6 +254,8 @@ public class SelectionView extends ViewPart {
 		str.add("Asserts\n");
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.methodAList, astvis.localTestInformation.methodAList);
 		
+		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
+		SampleMarker.createMarker(irs, astvis.localTestInformation);
 		return str.toString();
 	}
 	
@@ -322,7 +321,7 @@ public class SelectionView extends ViewPart {
 					ASTParser parser = ASTParser.newParser(AST.JLS4);
 					parser.setSource(unit);
 					CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-					ASTVisitorImpl astvis = new ASTVisitorImpl(this.globalTestInformation);
+					ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 					unitp.accept(astvis);
 				}
 			}

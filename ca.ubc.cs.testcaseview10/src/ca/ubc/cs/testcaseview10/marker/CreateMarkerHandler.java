@@ -14,13 +14,11 @@ public class CreateMarkerHandler extends AbstractHandler {
     }
 
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        // リソースの取得
         IEditorPart editorPart = HandlerUtil.getActiveEditor(event);
         IEditorInput editorInput = editorPart.getEditorInput();
         IResource resource = (IResource)editorInput.getAdapter(IResource.class);
 
-        // マーカーの作成
-        SampleMarker.createMarker(resource);
+        SampleMarker.createMarker(resource, null);
         return null;
     }
 }

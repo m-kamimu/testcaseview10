@@ -1,15 +1,18 @@
 package ca.ubc.cs.testcaseview10;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 
 public class ASTVisitorImpl extends ASTVisitor {
 	
+	CompilationUnit cu;
 	TestInformation localTestInformation = new TestInformation();	
 	TestInformation globalTestInformation = null;
 	
-	ASTVisitorImpl(TestInformation testinfo) {
+	ASTVisitorImpl(CompilationUnit cu, TestInformation testinfo) {
+		this.cu = cu;
 		this.globalTestInformation = testinfo;
 	}
 
@@ -35,11 +38,22 @@ public class ASTVisitorImpl extends ASTVisitor {
 		// TODO Auto-generated method stub
 		if (assertFlag || node.getName().toString().startsWith("assert")) {
 			globalTestInformation.methodAList.add(node.getName().toString());
+			globalTestInformation.methodAintsList.add(node.getStartPosition());
+			globalTestInformation.methodAintlList.add(node.getLength());
+
 			localTestInformation.methodAList.add(node.getName().toString());
+			localTestInformation.methodAintsList.add(node.getStartPosition());
+			localTestInformation.methodAintlList.add(node.getLength());
+
 			assertFlag = true;
 		} else {
 			globalTestInformation.methodIList.add(node.getName().toString());
+			globalTestInformation.methodIintsList.add(node.getStartPosition());
+			globalTestInformation.methodIintlList.add(node.getLength());
+
 			localTestInformation.methodIList.add(node.getName().toString());			
+			localTestInformation.methodIintsList.add(node.getStartPosition());
+			localTestInformation.methodIintlList.add(node.getLength());
 		}
 		
 		return super.visit(node);
