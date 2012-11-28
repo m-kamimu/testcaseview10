@@ -18,6 +18,9 @@ public class ASTVisitorImpl extends ASTVisitor {
 	ASTVisitorImpl(CompilationUnit cu, TestInformation testinfo) {
 		this.cu = cu;
 		this.globalTestInformation = testinfo;
+		if (!this.globalTestInformation.isLock()) {
+			this.globalTestInformation.setSourceFile(cu.toString());
+		}
 	}
 
 	Stack<String> currentMethod = new Stack<String>();

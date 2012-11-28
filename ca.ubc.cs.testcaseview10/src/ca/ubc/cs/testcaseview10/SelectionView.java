@@ -210,30 +210,26 @@ public class SelectionView extends ViewPart {
 		//str.add(mypackage.getElementName());
 		//str.add(compstr.toString());
 		//str.add("\n");
-		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), compstr.toString(),true));
+		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), compstr.toString()));
 
 		return str.toString();
 	}
 	
 	private void callshouldComputeLogLikelihood(
 			List<String> str,
-			List<String> gmethodlist, List<String> lmethodlist) {
+			List<String> gmethodlist, String localfile) {
 		StringBuffer strbufgd = new StringBuffer();
-		StringBuffer strbufgl = new StringBuffer();
+		//StringBuffer strbufgl = new StringBuffer();
 
 		for (String each: gmethodlist) {
 			strbufgd.append(each);
 			strbufgd.append(" ");
 		}
-		for (String each: lmethodlist) {
-			strbufgl.append(each);
-			strbufgl.append(" ");
-		}
 
 		//str.add(strbufgd.toString());
 		//str.add(strbufgl.toString());
 		
-		str.add(shouldComputeLogLikelihood(strbufgd.toString(), strbufgl.toString(),true));
+		str.add(shouldComputeLogLikelihood(strbufgd.toString(), localfile.toString()));
 		return;
 	}
 	
@@ -250,12 +246,16 @@ public class SelectionView extends ViewPart {
 		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
 		ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 		unitp.accept(astvis);
-		
+
+		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getSourceFiles(), unitp.toString());
+
+		/*
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodDList(), astvis.localTestInformation.getMethodDList());
 		str.add("Invocation\n");
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodIList(), astvis.localTestInformation.getMethodIList());
 		str.add("Asserts\n");
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodAList(), astvis.localTestInformation.getMethodAList());
+		*/
 		
 		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
 		SampleMarker.createMarker(irs, astvis.localTestInformation, globalTestInformation);
@@ -310,6 +310,7 @@ public class SelectionView extends ViewPart {
 			this.globalTestInformation.getMethodDList().clear();
 			this.globalTestInformation.getMethodIList().clear();
 			this.globalTestInformation.getMethodAList().clear();
+			this.globalTestInformation.getSourceFiles().clear();
 		}
 		
 		IPackageFragment[] packages = javaProject.getPackageFragments();
@@ -373,9 +374,9 @@ public class SelectionView extends ViewPart {
 		}
 	}
 	
-	public String shouldComputeLogLikelihood(String strall, String strdoc, boolean flag) {
-		Terms all = new Terms(strall,flag);
-		Terms doc = new Terms(strdoc,flag);
+	public String shouldComputeLogLikelihood(String strall, String strdoc) {
+		Terms all = new Terms(strall);
+		Terms doc = new Terms(strdoc);
 		StringBuffer strbuf = new StringBuffer();
 		List<LogLikelihood> col = new ArrayList<LogLikelihood>();
 		for (String each: doc.elements()) {
