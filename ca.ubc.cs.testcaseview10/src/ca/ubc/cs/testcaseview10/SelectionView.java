@@ -107,6 +107,7 @@ public class SelectionView extends ViewPart {
 				showItems(ss.toArray());
 			}
 		}
+		
 		/*
 		if (selection instanceof ITextSelection) {
 			ITextSelection ts  = (ITextSelection) selection;

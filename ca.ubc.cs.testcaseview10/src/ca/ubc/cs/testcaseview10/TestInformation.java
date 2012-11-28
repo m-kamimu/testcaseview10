@@ -6,6 +6,10 @@ import java.util.List;
 public class TestInformation {
 	
 	private List<String> methodDList = new ArrayList<String>(); // test case name
+	
+	private List<String> methodIDList = new ArrayList<String>(); // ordinary list
+	private List<String> methodADList = new ArrayList<String>(); // assert list
+	
 	private List<String> methodIList = new ArrayList<String>(); // ordinary list
 	private List<String> methodAList = new ArrayList<String>(); // assert list
 	
@@ -88,6 +92,18 @@ public class TestInformation {
 		return occurence;
 	}
 	
+	public int getMethodAOccurenceInTest(String methodname, String methodDname) {
+		int occurence = 0;
+		for(int i = 0; i < methodADList.size(); i++) {
+			String dname = methodADList.get(i);
+			String name = methodAList.get(i);
+			if (name.equals(methodname) && dname.equals(methodDname)) {
+				occurence++;
+			}
+		}
+		return occurence;
+	}
+	
 	public int getMethodIOccurence(String methodname) {
 		int occurence = 0;
 		for(String name: methodIList) {
@@ -97,6 +113,19 @@ public class TestInformation {
 		}
 		return occurence;
 	}
+
+	public int getMethodIOccurenceInTest(String methodname, String methodDname) {
+		int occurence = 0;
+		for(int i = 0; i < methodIDList.size(); i++) {
+			String dname = methodIDList.get(i);
+			String name = methodIList.get(i);
+			if (name.equals(methodname) && dname.equals(methodDname)) {
+				occurence++;
+			}
+		}
+		return occurence;
+	}
+
 	/**
 	 * @return the methodDList
 	 */
@@ -132,6 +161,30 @@ public class TestInformation {
 	 */
 	public void setMethodAList(List<String> methodAList) {
 		this.methodAList = methodAList;
+	}
+	/**
+	 * @return the methodIDList
+	 */
+	public List<String> getMethodIDList() {
+		return methodIDList;
+	}
+	/**
+	 * @param methodIDList the methodIDList to set
+	 */
+	public void setMethodIDList(List<String> methodIDList) {
+		this.methodIDList = methodIDList;
+	}
+	/**
+	 * @return the methodADList
+	 */
+	public List<String> getMethodADList() {
+		return methodADList;
+	}
+	/**
+	 * @param methodADList the methodADList to set
+	 */
+	public void setMethodADList(List<String> methodADList) {
+		this.methodADList = methodADList;
 	}
 	
 	

@@ -29,7 +29,8 @@ public class SampleMarker20 {
 		
 	    for(int i = 0; i < ti.getMethodIintsList().size(); i++) {
 	    	String methodname = ti.getMethodIList().get(i);
-	    	int occurence = global.getMethodIOccurence(methodname) - ti.getMethodIOccurence(methodname);
+	    	String methodDname = ti.getMethodIDList().get(i);
+	    	int occurence = global.getMethodIOccurence(methodname) - ti.getMethodIOccurenceInTest(methodname, methodDname);
 	    	if (occurence < 1) {
 	    		continue;
 	    	}
@@ -45,7 +46,7 @@ public class SampleMarker20 {
 	    	
 		    //attributes.put(IMarker.CHAR_START, Integer.valueOf(1000));
 		    //attributes.put(IMarker.CHAR_END, Integer.valueOf(1005));
-		    attributes.put(IMarker.MESSAGE, "methodname: " + methodname + " occurence(in other files):" + occurence);
+		    attributes.put(IMarker.MESSAGE, "methodname: " + methodname + " occurence(in others):" + occurence);
 		    try {
 				MarkerUtilities.createMarker(resource, attributes, SampleMarker20.MARKER_ID);
 			} catch (CoreException e1) {
