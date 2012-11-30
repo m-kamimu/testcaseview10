@@ -28,6 +28,7 @@ import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -97,10 +98,9 @@ public class SelectionView extends ViewPart {
 					
 					project = adaptable.getAdapter(ICompilationUnit.class);								
 					if (project instanceof ICompilationUnit) {
-						showText(getOneMethodICompilationUnitInfo((ICompilationUnit)project));
-						showitemcalled = true;						
+						showText(getOneMethodICompilationUnitInfo((ICompilationUnit)project, false));
+						showitemcalled = true;
 					}
-					
 					//project = adaptable.getAdapter(IClass)
 					
 				} catch (Exception e) {
@@ -123,7 +123,7 @@ public class SelectionView extends ViewPart {
 			IFile file = (IFile) editorInput.getAdapter(IFile.class);
 			ICompilationUnit unit = JavaCore.createCompilationUnitFrom(file);
 			try {
-				showText(getOneMethodICompilationUnitInfo(unit));
+				showText(getOneMethodICompilationUnitInfo(unit, false));
 			} catch (JavaModelException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -253,8 +253,26 @@ public class SelectionView extends ViewPart {
 		return;
 	}
 	
+	int[] a1 = {0,0,0,0};
 	
-	private String getOneMethodICompilationUnitInfo(ICompilationUnit unit) 
+	public int largest() {
+		int current, max, count;
+		
+		current = a1[0];
+		max = current;
+		count = -1;
+		for(int i = 0; i < a1.length; i++) {
+			current = a1[i];
+			if(current > max) {
+				max = current;
+				count = i;
+			}
+		}
+		return count;
+	}
+	
+	
+	public String getOneMethodICompilationUnitInfo(ICompilationUnit unit, boolean loglikelihood) 
 			throws JavaModelException {
 		getAllMethodICompliationUnitInfo(unit.getJavaProject());
 		List<String> str = new ArrayList<String>();	
@@ -266,8 +284,10 @@ public class SelectionView extends ViewPart {
 		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
 		ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 		unitp.accept(astvis);
-
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getSourceFiles(), unitp.toString());
+		
+		if (loglikelihood) {
+			//callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getSourceFiles(), unitp.toString());
+		}
 
 		/*
 		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodDList(), astvis.localTestInformation.getMethodDList());
@@ -278,10 +298,14 @@ public class SelectionView extends ViewPart {
 		*/
 		
 		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
-		SampleMarker.createMarker(irs, astvis.localTestInformation, globalTestInformation);
-		SampleMarker2.createMarker(irs, astvis.localTestInformation, globalTestInformation);
-		SampleMarker10.createMarker(irs, astvis.localTestInformation, globalTestInformation);
-		SampleMarker20.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		a1[0] = SampleMarker.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		a1[1] = SampleMarker10.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		a1[2] = SampleMarker2.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		a1[3] = SampleMarker20.createMarker(irs, astvis.localTestInformation, globalTestInformation);
+		
+		str.add(SampleMarker.getLastm());
+		str.add(SampleMarker2.getLastm());
+		
 		return str.toString();
 	}
 	
@@ -330,7 +354,7 @@ public class SelectionView extends ViewPart {
 			this.globalTestInformation.getMethodDList().clear();
 			this.globalTestInformation.getMethodIList().clear();
 			this.globalTestInformation.getMethodAList().clear();
-			this.globalTestInformation.getSourceFiles().clear();
+			//this.globalTestInformation.getSourceFiles().clear();
 		}
 		
 		IPackageFragment[] packages = javaProject.getPackageFragments();
@@ -412,4 +436,19 @@ public class SelectionView extends ViewPart {
 
 		return strbuf.toString();
 	}
+
+	/**
+	 * @return the currentProject
+	 */
+	public String getCurrentProject() {
+		return currentProject;
+	}
+
+	/**
+	 * @param currentProject the currentProject to set
+	 */
+	public void setCurrentProject(String currentProject) {
+		this.currentProject = currentProject;
+	}
+	
 }

@@ -19,21 +19,23 @@ public class TestInformation {
 	private List<Integer> methodAintsList = new ArrayList<Integer>();
 	private List<Integer> methodAintlList = new ArrayList<Integer>();
 
-	private List<String> sourceFiles = new ArrayList<String>();
+	//private List<String> sourceFiles = new ArrayList<String>();
 	private boolean lock = false;
 	
 	/**
 	 * @return the sourceFiles
 	 */
-	public List<String> getSourceFiles() {
+	/*public List<String> getSourceFiles() {
 		return sourceFiles;
 	}
 	/**
 	 * @param sourceFiles the sourceFiles to set
 	 */
+	/*
 	public void setSourceFile(String sourceFile) {
 		this.sourceFiles.add(sourceFile);
 	}
+	*/
 	
 	/**
 	 * @return the lock

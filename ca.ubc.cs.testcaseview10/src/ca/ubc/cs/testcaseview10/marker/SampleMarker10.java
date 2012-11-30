@@ -14,9 +14,10 @@ public class SampleMarker10 {
 
 	private static final String MARKER_ID = "ca.ubc.cs.testcaseview10.SampleMarker10";
 
-	public static void createMarker(IResource resource, TestInformation ti, TestInformation global) {
+	public static int createMarker(IResource resource, TestInformation ti, TestInformation global) {
+		int marked = 0;
 		if (ti == null) {
-			return;
+			return marked;
 		}
 		
 		try {
@@ -49,10 +50,12 @@ public class SampleMarker10 {
 		    attributes.put(IMarker.MESSAGE, "methodname: " + methodname + " occurence(in others):" + occurence);
 		    try {
 				MarkerUtilities.createMarker(resource, attributes, SampleMarker10.MARKER_ID);
+				marked++;
 			} catch (CoreException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	    }
+	    return marked;
 	}	
 }

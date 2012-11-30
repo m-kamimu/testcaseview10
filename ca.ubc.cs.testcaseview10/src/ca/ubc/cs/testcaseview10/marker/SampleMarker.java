@@ -13,10 +13,20 @@ import ca.ubc.cs.testcaseview10.TestInformation;
 public class SampleMarker {
 
 	private static final String MARKER_ID = "ca.ubc.cs.testcaseview10.SampleMarker";
+	private static StringBuffer lastm = new StringBuffer();
+	
+	/**
+	 * @return the lastm
+	 */
+	public static String getLastm() {
+		return lastm.toString();
+	}
 
-	public static void createMarker(IResource resource, TestInformation ti, TestInformation global) {
+	public static int createMarker(IResource resource, TestInformation ti, TestInformation global) {
+		lastm = new StringBuffer();
+		int marked = 0;
 		if (ti == null || global == null) {
-			return;
+			return marked;
 		}
 		
 		try {
@@ -43,16 +53,19 @@ public class SampleMarker {
 
 	    	attributes.put(IMarker.CHAR_START, Integer.valueOf(ti.getMethodAintsList().get(i)));
 		    attributes.put(IMarker.CHAR_END, Integer.valueOf(ti.getMethodAintsList().get(i) + ti.getMethodAintlList().get(i)));
+		    lastm.append(methodname + "\n");
 	    	
 		    //attributes.put(IMarker.CHAR_START, Integer.valueOf(1000));
 		    //attributes.put(IMarker.CHAR_END, Integer.valueOf(1005));
 		    attributes.put(IMarker.MESSAGE, "methodname: " + methodname + " occurence(in others):" + occurence);
 		    try {
 				MarkerUtilities.createMarker(resource, attributes, SampleMarker.MARKER_ID);
+				marked++;
 			} catch (CoreException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	    }
-	}	
+		return marked;
+	}
 }

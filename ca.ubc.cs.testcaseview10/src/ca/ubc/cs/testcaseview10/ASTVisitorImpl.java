@@ -19,7 +19,7 @@ public class ASTVisitorImpl extends ASTVisitor {
 		this.cu = cu;
 		this.globalTestInformation = testinfo;
 		if (!this.globalTestInformation.isLock()) {
-			this.globalTestInformation.setSourceFile(cu.toString());
+			//this.globalTestInformation.setSourceFile(cu.toString());
 		}
 	}
 
