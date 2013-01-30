@@ -17,3 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.junit.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: ca.ubc.cs.testcaseview10,
+ ca.ubc.cs.testcaseview10.decorator,
+ ca.ubc.cs.testcaseview10.marker

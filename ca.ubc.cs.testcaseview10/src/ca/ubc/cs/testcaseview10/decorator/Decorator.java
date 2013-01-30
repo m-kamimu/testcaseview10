@@ -2,24 +2,17 @@ package ca.ubc.cs.testcaseview10.decorator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.testcaseview10.SelectionView;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker10;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker2;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker20;
+
 
 public class Decorator implements ILightweightLabelDecorator{
 
@@ -77,6 +70,8 @@ public class Decorator implements ILightweightLabelDecorator{
 						rgb = new RGB(255, 255, 200);						
 					} else if (count == 2) {
 						rgb = new RGB(0,255,0);
+						/*Font font = new Font(PlatformUI.getWorkbench().getDisplay(),new FontData("Arial", 10, SWT.BOLD));
+						decoration.setFont(font);*/
 					} else {
 						rgb = new RGB(200, 255, 200);												
 					}
