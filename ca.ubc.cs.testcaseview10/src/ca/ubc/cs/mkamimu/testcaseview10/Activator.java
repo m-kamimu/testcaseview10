@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "ca.ubc.cs.testcaseview10.selection"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "ca.ubc.cs.mkamimu.testcaseview10.selection"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

@@ -12,7 +12,7 @@ import ca.ubc.cs.mkamimu.testcaseview10.TestInformation;
 
 public class SampleMarker {
 
-	private static final String MARKER_ID = "ca.ubc.cs.testcaseview10.SampleMarker";
+	private static final String MARKER_ID = "ca.ubc.cs.mkamimu.testcaseview10.SampleMarker";
 	private static StringBuffer lastm = new StringBuffer();
 	
 	/**

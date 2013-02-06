@@ -5,13 +5,13 @@
          point="org.eclipse.ui.views">
       <category
             name="Sample Category"
-            id="ca.ubc.cs.testcaseview10">
+            id="ca.ubc.cs.mkamimu.testcaseview10">
       </category>
       <view
             icon="icons/sample.gif"
-            category="ca.ubc.cs.testcaseview10"
+            category="ca.ubc.cs.mkamimu.testcaseview10"
             class="ca.ubc.cs.mkamimu.testcaseview10.SelectionView"
-            id="ca.ubc.cs.testcaseview10.SelectionView"
+            id="ca.ubc.cs.mkamimu.testcaseview10.SelectionView"
             name="Workbench Selection">
       </view>
    </extension>
@@ -22,32 +22,32 @@
       </perspectiveExtension>
    </extension>
    	<extension
-      id="ca.ubc.cs.testcaseview10.SampleMarker"
-      name="ca.ubc.cs.testcaseview10.SampleMarker"
+      id="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker"
+      name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker"
       point="org.eclipse.core.resources.markers">
    <super
          type="org.eclipse.core.resources.textmarker">
    </super>
    </extension>
       	<extension
-      id="ca.ubc.cs.testcaseview10.SampleMarker10"
-      name="ca.ubc.cs.testcaseview10.SampleMarker10"
+      id="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker10"
+      name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker10"
       point="org.eclipse.core.resources.markers">
    <super
          type="org.eclipse.core.resources.textmarker">
    </super>
    </extension>
    <extension
-      id="ca.ubc.cs.testcaseview10.SampleMarker2"
-      name="ca.ubc.cs.testcaseview10.SampleMarker2"
+      id="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker2"
+      name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker2"
       point="org.eclipse.core.resources.markers">
    <super
          type="org.eclipse.core.resources.textmarker">
    </super>
 </extension>
    	<extension
-      id="ca.ubc.cs.testcaseview10.SampleMarker20"
-      name="ca.ubc.cs.testcaseview10.SampleMarker20"
+      id="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20"
+      name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20"
       point="org.eclipse.core.resources.markers">
    <super
          type="org.eclipse.core.resources.textmarker">
@@ -56,31 +56,31 @@
 <extension
       point="org.eclipse.ui.editors.annotationTypes">
    <type
-         markerType="ca.ubc.cs.testcaseview10.SampleMarker"
+         markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker"
          super="org.eclipse.ui.workbench.texteditor.info"
-         name="ca.ubc.cs.testcaseview10.SampleMarker">
+         name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker">
    </type>
    <type
-         markerType="ca.ubc.cs.testcaseview10.SampleMarker10"
+         markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker10"
          super="org.eclipse.ui.workbench.texteditor.info"
-         name="ca.ubc.cs.testcaseview10.SampleMarker10">
+         name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker10">
    </type>
       <type
-         markerType="ca.ubc.cs.testcaseview10.SampleMarker2"
+         markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker2"
          super="org.eclipse.ui.workbench.texteditor.info"
-         name="ca.ubc.cs.testcaseview10.SampleMarker2">
+         name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker2">
    </type> 
       <type
-         markerType="ca.ubc.cs.testcaseview10.SampleMarker20"
+         markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20"
          super="org.eclipse.ui.workbench.texteditor.info"
-         name="ca.ubc.cs.testcaseview10.SampleMarker20">
+         name="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20">
    </type> 
 
 </extension>
 <extension
       point="org.eclipse.ui.editors.markerAnnotationSpecification">
    <specification
-         annotationType="ca.ubc.cs.testcaseview10.SampleMarker"
+         annotationType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker"
          colorPreferenceKey="AssertOne_Samplecolor"
          colorPreferenceValue="255,255,0"
          contributesToHeader="false"
@@ -99,7 +99,7 @@
          textStylePreferenceValue="BOX">
    </specification>
       <specification
-         annotationType="ca.ubc.cs.testcaseview10.SampleMarker10"
+         annotationType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker10"
          colorPreferenceKey="AssertMany_Samplecolor"
          colorPreferenceValue="255,255,200"
          contributesToHeader="false"
@@ -118,7 +118,7 @@
          textStylePreferenceValue="BOX">
    </specification>
       <specification
-         annotationType="ca.ubc.cs.testcaseview10.SampleMarker2"
+         annotationType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker2"
          colorPreferenceKey="Invocation_Samplecolor2"
          colorPreferenceValue="0,255,0"
          contributesToHeader="false"
@@ -137,7 +137,7 @@
          textStylePreferenceValue="BOX">
    </specification>
       <specification
-         annotationType="ca.ubc.cs.testcaseview10.SampleMarker20"
+         annotationType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20"
          colorPreferenceKey="InvocationMany_Samplecolor20"
          colorPreferenceValue="200,255,200"
          contributesToHeader="false"
@@ -158,13 +158,13 @@
 </extension>
 <extension point="org.eclipse.ui.editors.markerUpdaters"> 
          <updater
-              id="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
+              id="ca.ubc.cs.mkamimu.testcaseview10.marker.MarkerUpdater"
               class="ca.ubc.cs.mkamimu.testcaseview10.marker.MarkerUpdater"
-              markerType="ca.ubc.cs.testcaseview10.SampleMarker">
+              markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker">
          </updater>
 </extension>
 <extension point="org.eclipse.ui.decorators">  
-	<decorator id="ca.ubc.cs.testcaseview10.decorator.Decorator"   
+	<decorator id="ca.ubc.cs.mkamimu.testcaseview10.decorator.Decorator"   
 			label="MyMarker Decorator"
 			state="true"
 			class= "ca.ubc.cs.mkamimu.testcaseview10.decorator.Decorator"   

@@ -12,7 +12,7 @@ import ca.ubc.cs.mkamimu.testcaseview10.TestInformation;
 
 public class SampleMarker20 {
 
-	private static final String MARKER_ID = "ca.ubc.cs.testcaseview10.SampleMarker20";
+	private static final String MARKER_ID = "ca.ubc.cs.mkamimu.testcaseview10.SampleMarker20";
 
 	public static int createMarker(IResource resource, TestInformation ti, TestInformation global) {
 		int marked = 0;
