@@ -1,4 +1,4 @@
-package ca.ubc.cs.testcaseview10;
+package ca.ubc.cs.mkamimu.testcaseview10;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,10 +43,10 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
 
-import ca.ubc.cs.testcaseview10.marker.SampleMarker;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker10;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker2;
-import ca.ubc.cs.testcaseview10.marker.SampleMarker20;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker10;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker2;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker20;
 import ch.akuhn.hapax.corpus.Terms;
 import ch.akuhn.hapax.index.LogLikelihood;
 

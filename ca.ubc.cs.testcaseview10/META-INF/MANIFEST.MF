@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Selection
-Bundle-SymbolicName: ca.ubc.cs.testcaseview10;singleton:=true
+Bundle-SymbolicName: ca.ubc.cs.mkamimu.testcaseview10;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: ca.ubc.cs.testcaseview10.Activator
+Bundle-Activator: ca.ubc.cs.mkamimu.testcaseview10.Activator
 Bundle-Vendor: UBC
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.junit.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: ca.ubc.cs.testcaseview10,
- ca.ubc.cs.testcaseview10.decorator,
- ca.ubc.cs.testcaseview10.marker
+Export-Package: ca.ubc.cs.mkamimu.testcaseview10,
+ ca.ubc.cs.mkamimu.testcaseview10.decorator,
+ ca.ubc.cs.mkamimu.testcaseview10.marker

@@ -1,4 +1,4 @@
-package ca.ubc.cs.testcaseview10;
+package ca.ubc.cs.mkamimu.testcaseview10;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

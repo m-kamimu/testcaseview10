@@ -10,7 +10,7 @@
       <view
             icon="icons/sample.gif"
             category="ca.ubc.cs.testcaseview10"
-            class="ca.ubc.cs.testcaseview10.SelectionView"
+            class="ca.ubc.cs.mkamimu.testcaseview10.SelectionView"
             id="ca.ubc.cs.testcaseview10.SelectionView"
             name="Workbench Selection">
       </view>
@@ -159,7 +159,7 @@
 <extension point="org.eclipse.ui.editors.markerUpdaters"> 
          <updater
               id="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
-              class="ca.ubc.cs.testcaseview10.marker.MarkerUpdater"
+              class="ca.ubc.cs.mkamimu.testcaseview10.marker.MarkerUpdater"
               markerType="ca.ubc.cs.testcaseview10.SampleMarker">
          </updater>
 </extension>
@@ -167,7 +167,7 @@
 	<decorator id="ca.ubc.cs.testcaseview10.decorator.Decorator"   
 			label="MyMarker Decorator"
 			state="true"
-			class= "ca.ubc.cs.testcaseview10.decorator.Decorator"   
+			class= "ca.ubc.cs.mkamimu.testcaseview10.decorator.Decorator"   
 			adaptable="true"   
 			lightweight="true">   
 		<enablement>
