@@ -1,7 +1,6 @@
 package ca.ubc.cs.mkamimu.testcaseview10;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -19,7 +18,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.internal.core.CompilationUnitElementInfo;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IMarkSelection;
@@ -28,17 +26,14 @@ import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
@@ -47,8 +42,6 @@ import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker10;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker2;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker20;
-import ch.akuhn.hapax.corpus.Terms;
-import ch.akuhn.hapax.index.LogLikelihood;
 
 /**
  * This view simply mirrors the current selection in the workbench window.
@@ -92,6 +85,7 @@ public class SelectionView extends ViewPart {
 					
 					project = adaptable.getAdapter(IPackageFragment.class);				
 					if (project instanceof IPackageFragment) {
+						//showItems(printPackageInfos(((IPackageFragment) project).getJavaProject()));
 						showText(getICompilationUnitInfo((IPackageFragment)project));
 						showitemcalled = true;
 					}
@@ -225,32 +219,13 @@ public class SelectionView extends ViewPart {
 		StringBuffer compstr = new StringBuffer();
 		for(ICompilationUnit mycompunit: mypackage.getCompilationUnits() ) {
 			compstr.append(mycompunit.getElementName());
-			compstr.append(" ");
+			compstr.append("\n");
 		}
-		//str.add(mypackage.getElementName());
-		//str.add(compstr.toString());
-		//str.add("\n");
-		str.add(shouldComputeLogLikelihood(getAllIPackageInfo(mypackage.getJavaProject()), compstr.toString()));
+		str.add(mypackage.getElementName());
+		str.add(compstr.toString());
+		str.add("\n");
 
 		return str.toString();
-	}
-	
-	private void callshouldComputeLogLikelihood(
-			List<String> str,
-			List<String> gmethodlist, String localfile) {
-		StringBuffer strbufgd = new StringBuffer();
-		//StringBuffer strbufgl = new StringBuffer();
-
-		for (String each: gmethodlist) {
-			strbufgd.append(each);
-			strbufgd.append(" ");
-		}
-
-		//str.add(strbufgd.toString());
-		//str.add(strbufgl.toString());
-		
-		str.add(shouldComputeLogLikelihood(strbufgd.toString(), localfile.toString()));
-		return;
 	}
 	
 	int[] a1 = {0,0,0,0};
@@ -285,18 +260,6 @@ public class SelectionView extends ViewPart {
 		ASTVisitorImpl astvis = new ASTVisitorImpl(unitp, this.globalTestInformation);
 		unitp.accept(astvis);
 		
-		if (loglikelihood) {
-			//callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getSourceFiles(), unitp.toString());
-		}
-
-		/*
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodDList(), astvis.localTestInformation.getMethodDList());
-		str.add("Invocation\n");
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodIList(), astvis.localTestInformation.getMethodIList());
-		str.add("Asserts\n");
-		callshouldComputeLogLikelihood(str,astvis.globalTestInformation.getMethodAList(), astvis.localTestInformation.getMethodAList());
-		*/
-		
 		IResource irs = ((ICompilationUnit) unit).getCorrespondingResource();
 		a1[0] = SampleMarker.createMarker(irs, astvis.localTestInformation, globalTestInformation);
 		a1[1] = SampleMarker10.createMarker(irs, astvis.localTestInformation, globalTestInformation);
@@ -309,37 +272,7 @@ public class SelectionView extends ViewPart {
 		return str.toString();
 	}
 	
-	/*
-	private String getOneICompilationUnitInfo(ICompilationUnit unit) 
-			throws JavaModelException {
-		List<Object> str = new ArrayList<Object>();	
-
-		// assert statement search
-		ASTParser parser = ASTParser.newParser(AST.JLS4);
-		parser.setSource(unit);
-		CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-		
-		str.add(unitp);
-		str.add("\n");
-		str.add(shouldComputeLogLikelihood(getAllICompliationUnitInfo(unit.getJavaProject()), unitp.toString(),false));
-			
-		return str.toString();
-	}
-	*/
-
 	
-	private String getAllIPackageInfo(IJavaProject javaProject)
-			throws JavaModelException {
-		StringBuffer strlen = new StringBuffer();
-		
-		IPackageFragment[] packages = javaProject.getPackageFragments();
-		for (IPackageFragment mypackage : packages) {
-			for(ICompilationUnit mycompunit: mypackage.getCompilationUnits()) {
-				strlen.append(mycompunit.getElementName());
-			}
-		}
-		return strlen.toString();
-	}
 	
 	String currentProject = null;
 	TestInformation globalTestInformation = new TestInformation();
@@ -381,61 +314,6 @@ public class SelectionView extends ViewPart {
 		return this.globalTestInformation;
 	}
 	
-	/*
-	private String getAllICompliationUnitInfo(IJavaProject javaProject)
-			throws JavaModelException {
-		StringBuffer strlen = new StringBuffer();
-		
-		IPackageFragment[] packages = javaProject.getPackageFragments();
-		for (IPackageFragment mypackage : packages) {
-			// Package fragments include all packages in the
-			// classpath
-			// We will only look at the package from the source
-			// folder
-			// K_BINARY would include also included JARS, e.g.
-			// rt.jar
-			//System.out.println("--------------------------------------------------------------------");
-			if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
-				for (ICompilationUnit unit : mypackage.getCompilationUnits()) {
-					// assert statement search
-					ASTParser parser = ASTParser.newParser(AST.JLS4);
-					parser.setSource(unit);
-					CompilationUnit unitp = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-					strlen.append(unitp);
-				}
-			}
-		}
-		return strlen.toString();
-	}
-	*/
-	
-	public void shouldComputeLogLikelihood() {
-		Terms all = new Terms("A A A A A B C C C D D");
-		Terms doc = new Terms("A A B B X");
-		for (String each: doc.elements()) {
-			LogLikelihood loglr = new LogLikelihood(all, doc, each);
-			System.out.println(loglr);
-		}
-	}
-	
-	public String shouldComputeLogLikelihood(String strall, String strdoc) {
-		Terms all = new Terms(strall);
-		Terms doc = new Terms(strdoc);
-		StringBuffer strbuf = new StringBuffer();
-		List<LogLikelihood> col = new ArrayList<LogLikelihood>();
-		for (String each: doc.elements()) {
-			LogLikelihood loglr = new LogLikelihood(doc, all, each);
-			col.add(loglr);
-		}
-		Collections.sort(col);
-
-		for (LogLikelihood logLikelihood : col) {
-			//System.out.println(loglr);			
-			strbuf.append(logLikelihood.toString() + "\n");
-		}
-
-		return strbuf.toString();
-	}
 
 	/**
 	 * @return the currentProject
