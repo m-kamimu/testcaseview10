@@ -156,13 +156,6 @@
          textStylePreferenceValue="BOX">
    </specification>
 </extension>
-<extension point="org.eclipse.ui.editors.markerUpdaters"> 
-         <updater
-              id="ca.ubc.cs.mkamimu.testcaseview10.marker.MarkerUpdater"
-              class="ca.ubc.cs.mkamimu.testcaseview10.marker.MarkerUpdater"
-              markerType="ca.ubc.cs.mkamimu.testcaseview10.SampleMarker">
-         </updater>
-</extension>
 <extension point="org.eclipse.ui.decorators">  
 	<decorator id="ca.ubc.cs.mkamimu.testcaseview10.decorator.Decorator"   
 			label="MyMarker Decorator"
@@ -175,5 +168,4 @@
 		</enablement>  
 	</decorator>
 </extension>
-
 </plugin>
