@@ -62,7 +62,7 @@ public class Decorator implements ILightweightLabelDecorator{
 				ICompilationUnit unit = JavaCore.createCompilationUnitFrom(file);
 				if (unit != null) {					
 					RGB rgb = null;
-					sv.getOneMethodICompilationUnitInfo(unit, false);
+					//sv.getOneMethodICompilationUnitInfo(unit, false);
 					int count = sv.largest();
 					if (count == 0) {
 						rgb = new RGB(255, 255, 0);
@@ -83,6 +83,8 @@ public class Decorator implements ILightweightLabelDecorator{
 					sv.setCurrentProject(unit.getJavaProject().getElementName());
 				}
 			} catch (IllegalArgumentException e) {
+				// ignore
+			} catch (ClassCastException e) {
 				// ignore
 			} catch (Exception e) {
 				e.printStackTrace();

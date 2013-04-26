@@ -29,6 +29,10 @@ public class SampleMarker10 {
 		}
 		
 	    for(int i = 0; i < ti.getMethodAintsList().size(); i++) {
+	    	if (!ti.getMethodAList().get(i).startsWith("assert")) {
+	    		continue; // inside assert will be printed by arguments info. 
+	    	}
+	    	String classname = ti.getClassName();
 	    	String methodname = ti.getMethodAList().get(i);
 	    	String methodDname = ti.getMethodADList().get(i);
 	    	int occurence = global.getMethodAOccurence(methodname) - ti.getMethodAOccurenceInTest(methodname, methodDname);
@@ -48,6 +52,7 @@ public class SampleMarker10 {
 		    //attributes.put(IMarker.CHAR_START, Integer.valueOf(1000));
 		    //attributes.put(IMarker.CHAR_END, Integer.valueOf(1005));
 		    attributes.put(IMarker.MESSAGE, "methodname: " + methodname + " occurence(in others):" + occurence);
+		    System.out.println(classname + ":" + methodDname + ": " + methodname + " occurence(in others):" + occurence);
 		    try {
 				MarkerUtilities.createMarker(resource, attributes, SampleMarker10.MARKER_ID);
 				marked++;

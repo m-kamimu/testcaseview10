@@ -38,6 +38,9 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
 
+import ca.ubc.cs.mkamimu.testcaseview10.marker.DescriptionData;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.DescriptionDataForWriting;
+import ca.ubc.cs.mkamimu.testcaseview10.marker.DescriptionDataHolder;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker10;
 import ca.ubc.cs.mkamimu.testcaseview10.marker.SampleMarker2;
@@ -111,6 +114,7 @@ public class SelectionView extends ViewPart {
 		
 		
 		if (selection instanceof ITextSelection) {
+			/*
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				    .getActivePage();
 			IEditorInput editorInput = page.getActiveEditor().getEditorInput();
@@ -122,6 +126,7 @@ public class SelectionView extends ViewPart {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 			/*
 			ITextSelection ts  = (ITextSelection) selection;
 			showText(ts.getText());
@@ -159,7 +164,8 @@ public class SelectionView extends ViewPart {
 		getSite().setSelectionProvider(tableviewer);
 		
 		textviewer = new TextViewer(pagebook, SWT.H_SCROLL | SWT.V_SCROLL);
-		textviewer.setEditable(false);
+		//textviewer.setEditable(false);
+		textviewer.setEditable(true);
 		
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(listener);
 	}
@@ -228,7 +234,7 @@ public class SelectionView extends ViewPart {
 		return str.toString();
 	}
 	
-	int[] a1 = {0,0,0,0};
+	private int[] a1 = {0,0,0,0};
 	
 	public int largest() {
 		int current, max, count;
@@ -266,16 +272,79 @@ public class SelectionView extends ViewPart {
 		a1[2] = SampleMarker2.createMarker(irs, astvis.localTestInformation, globalTestInformation);
 		a1[3] = SampleMarker20.createMarker(irs, astvis.localTestInformation, globalTestInformation);
 		
-		str.add(SampleMarker.getLastm());
-		str.add(SampleMarker2.getLastm());
+		//str.add(SampleMarker.getLastm());  //assertinfo?
+		//str.add(SampleMarker2.getLastm()); // normal method info?
+		
+		DescriptionDataHolder assertstr = SampleMarker.getLastm2();
+		DescriptionDataHolder invostr = SampleMarker2.getLastm2();
+		
+		List<String> testname = assertstr.getTestName(astvis.localTestInformation.getClassName());
+		List<String> testname2 = invostr.getTestName(astvis.localTestInformation.getClassName());
+		
+		for(int i = 0; i < testname.size(); i++) {
+			String testnameelm = testname.get(i);
+			if (!testname2.contains(testnameelm)) {
+				testname2.add(testnameelm);
+			}
+		}
+		
+		str.add(astvis.localTestInformation.getClassName() + "\n");
+		
+		
+		for(int i = 0; i < testname2.size(); i++) {
+			DescriptionDataForWriting description1 = new DescriptionDataForWriting();
+			DescriptionDataForWriting description2 = new DescriptionDataForWriting();
+			StringBuffer strbuf = new StringBuffer();
+			strbuf.append(testname2.get(i) + "\t:\t");
+			for(int j = 0; j < 2; j++) {
+				description1.add(assertstr.getNextItem(testname2.get(i)));
+				description2.add(invostr.getNextItem(testname2.get(i)));
+				//strbuf.append(testname2.get(i) + "\t:\t");
+			}
+			
+			List<DescriptionData> deslist1 = description1.getDescriptionInOrder();
+			List<DescriptionData> deslist2 = description2.getDescriptionInOrder();
+
+			int d1count = 0;
+			int d2count = 0;
+			while (d1count < deslist1.size() || d2count < deslist2.size()) {
+				DescriptionData d1 = null;
+				DescriptionData d2 = null;
+				if (d1count < deslist1.size()) {
+					d1 = deslist1.get(d1count);
+				}
+				if (d2count < deslist2.size()) {
+					d2 = deslist2.get(d2count);
+				}
+				
+				if (d1 != null && d2 != null) {
+					if (d1.getStartcolumn() < d2.getStartcolumn()) {
+						//strbuf.append(", " + d1.getDescription());
+						strbuf.append(", " + d1.getDescriptionWithReplace());
+						d1count++;
+					} else {
+						//strbuf.append(", " + d2.getDescription());
+						strbuf.append(", " + d2.getDescriptionWithReplace());
+						d2count++;
+					}
+				} else if (d1 == null) {
+					strbuf.append(", " + d2.getDescriptionWithReplace());
+					d2count++;
+				} else if (d2 == null) {
+					strbuf.append(", " + d1.getDescriptionWithReplace());
+					d1count++;
+				}
+			}
+			str.add(strbuf.toString() + "\n");
+			strbuf.delete(0, strbuf.length());
+		}
+		//str.add(SampleMarker2.getLastm2()); // normal method info?
 		
 		return str.toString();
 	}
 	
-	
-	
-	String currentProject = null;
-	TestInformation globalTestInformation = new TestInformation();
+	private String currentProject = null;
+	private TestInformation globalTestInformation = new TestInformation();
 
 	private TestInformation getAllMethodICompliationUnitInfo(IJavaProject javaProject)
 			throws JavaModelException {
@@ -287,6 +356,10 @@ public class SelectionView extends ViewPart {
 			this.globalTestInformation.getMethodDList().clear();
 			this.globalTestInformation.getMethodIList().clear();
 			this.globalTestInformation.getMethodAList().clear();
+			this.globalTestInformation.getMethodOnlyIList().clear();
+			this.globalTestInformation.getMethodOnlyAList().clear();
+			this.globalTestInformation.getMethodAArgList().clear();
+			this.globalTestInformation.getMethodIArgList().clear();
 			//this.globalTestInformation.getSourceFiles().clear();
 		}
 		
@@ -312,14 +385,6 @@ public class SelectionView extends ViewPart {
 		}
 		this.globalTestInformation.setLock(true);
 		return this.globalTestInformation;
-	}
-	
-
-	/**
-	 * @return the currentProject
-	 */
-	public String getCurrentProject() {
-		return currentProject;
 	}
 
 	/**

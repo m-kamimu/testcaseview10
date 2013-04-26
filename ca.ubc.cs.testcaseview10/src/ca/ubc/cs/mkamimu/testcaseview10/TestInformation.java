@@ -3,24 +3,44 @@ package ca.ubc.cs.mkamimu.testcaseview10;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author kamimura
+ *
+ */
 public class TestInformation {
+	
+	private String className = new String(); // test class name
 	
 	private List<String> methodDList = new ArrayList<String>(); // test case name
 	
-	private List<String> methodIDList = new ArrayList<String>(); // ordinary list
-	private List<String> methodADList = new ArrayList<String>(); // assert list
+	private List<String> methodIDList = new ArrayList<String>(); // ordinary list (test name)
+	private List<String> methodADList = new ArrayList<String>(); // assert list (test name)
 	
-	private List<String> methodIList = new ArrayList<String>(); // ordinary list
-	private List<String> methodAList = new ArrayList<String>(); // assert list
-	
-	private List<Integer> methodIintsList = new ArrayList<Integer>();
-	private List<Integer> methodIintlList = new ArrayList<Integer>();
+	private List<String> methodIList = new ArrayList<String>(); // ordinary list (invocation)
+	private List<String> methodAList = new ArrayList<String>(); // assert list (invocation)
 
-	private List<Integer> methodAintsList = new ArrayList<Integer>();
-	private List<Integer> methodAintlList = new ArrayList<Integer>();
+	private List<String> methodOnlyIList = new ArrayList<String>(); // ordinary list (invocation)
+	private List<String> methodOnlyAList = new ArrayList<String>(); // assert list (invocation)
+
+	private List<String> exprOnlyIList = new ArrayList<String>(); // ordinary list (invocation)
+	private List<String> exprOnlyAList = new ArrayList<String>(); // assert list (invocation)
+	
+	private List<Integer> methodIintsList = new ArrayList<Integer>();  //start position column number
+	private List<Integer> methodIintlList = new ArrayList<Integer>();  //length of the description
+
+	private List<Integer> methodAintsList = new ArrayList<Integer>();  // start position column number
+	private List<Integer> methodAintlList = new ArrayList<Integer>();  // length of the description
+	
+	private List<String> methodIArgList = new ArrayList<String>(); // ordinary argument list (invocation)
+	private List<String> methodAArgList = new ArrayList<String>(); // assert argument list (invocation)
 
 	//private List<String> sourceFiles = new ArrayList<String>();
 	private boolean lock = false;
+	
+	private List<Boolean> tryflag = new ArrayList<Boolean>();
+	private List<Boolean> catchflag = new ArrayList<Boolean>();
+
+	private List<AssignInformation> assigninfo = new ArrayList<AssignInformation>();
 	
 	/**
 	 * @return the sourceFiles
@@ -98,6 +118,10 @@ public class TestInformation {
 		this.methodAintsList = methodAintsList;
 	}
 	
+	/**
+	 * @param methodname
+	 * @return
+	 */
 	public int getMethodAOccurence(String methodname) {
 		int occurence = 0;
 		for(String name: methodAList) {
@@ -108,6 +132,11 @@ public class TestInformation {
 		return occurence;
 	}
 	
+	/**
+	 * @param methodname
+	 * @param methodDname
+	 * @return
+	 */
 	public int getMethodAOccurenceInTest(String methodname, String methodDname) {
 		int occurence = 0;
 		for(int i = 0; i < methodADList.size(); i++) {
@@ -120,6 +149,10 @@ public class TestInformation {
 		return occurence;
 	}
 	
+	/**
+	 * @param methodname
+	 * @return
+	 */
 	public int getMethodIOccurence(String methodname) {
 		int occurence = 0;
 		for(String name: methodIList) {
@@ -130,6 +163,11 @@ public class TestInformation {
 		return occurence;
 	}
 
+	/**
+	 * @param methodname
+	 * @param methodDname
+	 * @return
+	 */
 	public int getMethodIOccurenceInTest(String methodname, String methodDname) {
 		int occurence = 0;
 		for(int i = 0; i < methodIDList.size(); i++) {
@@ -203,6 +241,115 @@ public class TestInformation {
 		this.methodADList = methodADList;
 	}
 	
+	/**
+	 * @return
+	 */
+	public List<String> getMethodOnlyIList() {
+		return methodOnlyIList;
+	}
+	/**
+	 * @param methodOnlyIList
+	 */
+	public void setMethodOnlyIList(List<String> methodOnlyIList) {
+		this.methodOnlyIList = methodOnlyIList;
+	}
+	/**
+	 * @return
+	 */
+	public List<String> getMethodOnlyAList() {
+		return methodOnlyAList;
+	}
+	/**
+	 * @param methodOnlyAList
+	 */
+	public void setMethodOnlyAList(List<String> methodOnlyAList) {
+		this.methodOnlyAList = methodOnlyAList;
+	}
+	/**
+	 * @return
+	 */
+	public List<AssignInformation> getAssigninfo() {
+		return assigninfo;
+	}
 	
+	/**
+	 * @param assigninfo
+	 */
+	public void setAssigninfo(List<AssignInformation> assigninfo) {
+		this.assigninfo = assigninfo;
+	}
+	
+	/**
+	 * @param assigninfo
+	 */
+	public void addAssigninfo(AssignInformation assigninfo) {
+		this.assigninfo.add(assigninfo);
+	}
+	/**
+	 * @return
+	 */
+	public List<String> getExprOnlyIList() {
+		return exprOnlyIList;
+	}
+	/**
+	 * @param exprOnlyIList
+	 */
+	public void setExprOnlyIList(List<String> exprOnlyIList) {
+		this.exprOnlyIList = exprOnlyIList;
+	}
+	/**
+	 * @return
+	 */
+	public List<String> getExprOnlyAList() {
+		return exprOnlyAList;
+	}
+	/**
+	 * @param exprOnlyAList
+	 */
+	public void setExprOnlyAList(List<String> exprOnlyAList) {
+		this.exprOnlyAList = exprOnlyAList;
+	}
+	/**
+	 * @return
+	 */
+	public String getClassName() {
+		return className;
+	}
+	/**
+	 * @param classname
+	 */
+	public void setClassName(String classname) {
+		this.className = classname;
+	}
+	/**
+	 * @return
+	 */
+	public List<String> getMethodIArgList() {
+		return methodIArgList;
+	}
+	/**
+	 * @param methodIArgList
+	 */
+	public void setMethodIArgList(List<String> methodIArgList) {
+		this.methodIArgList = methodIArgList;
+	}
+	/**
+	 * @return
+	 */
+	public List<String> getMethodAArgList() {
+		return methodAArgList;
+	}
+	/**
+	 * @param methodAArgList
+	 */
+	public void setMethodAArgList(List<String> methodAArgList) {
+		this.methodAArgList = methodAArgList;
+	}
+	public List<Boolean> getTryflag() {
+		return tryflag;
+	}
+	public List<Boolean> getCatchflag() {
+		return catchflag;
+	}
 	
 }
